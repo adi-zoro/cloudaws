@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+{% block body %}
+    <body class="custom-background">
+    <style>
+    .custom-background {
+        background-color: #370617;
+    }
+    </style>
+    </body>
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class ="container mt-4">
+            <table class = "table table-success table-striped table-hover" , border = "1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th colspan = "2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.title}}</td>
+                            <td>{{item.type}}</td>
+                            <td>{{item.price}}</td>
+                            <td>
+                                <a href="/update/{{item.id}}" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modaledit{{item.id}}">Update</a>
+                                <a href="/delete/{{item.id}}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete  item')">Delete</a>
+                            </td>
+
+
+
+                            <!-- update model -->
+                             <div id="modaledit{{item.id}}" class="modal fade" role="dialog">
+                               <div class="modal-dialog">
+                                  <div class="modal-content">
+                                     <div class="modal-header">
+                                        <h4 class="modal-title">Update Item</h4>
+                                     </div>
+                                     <div class="modal-body">
+
+                                        <form action="{{url_for('update')}}" method="POST">
+
+
+                                           <div class="form-group">
+
+                                              <label>Title:</label>
+                                               <input type="hidden"  name="id" value="{{item.id}}">
+                                              <input type="text" class="form-control" name="title" value="{{item.title}}" >
+
+                                           </div>
+
+
+
+                                            <div class="form-group">
+                                              <label>Type:</label>
+                                              <input type="text" class="form-control" name="type" value="{{item.type}}">
+                                           </div>
+
+                                             <div class="form-group">
+                                              <label>Price:</label>
+                                              <input type="number" class="form-control" name="price" value="{{item.price}}">
+                                           </div>
+
+                                           <div class="form-group">
+                                              <button class="btn btn-primary mt-4" type="submit">Update Book</button>
+                                           </div>
+
+
+                                        </form>
+
+
+                                     </div>
+
+
+                                     <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                                     </div>
+
+
+                                  </div>
+
+
+                               </div>
+
+
+                            </div>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+
+<nav class ="navbar navbar-expand-lg navbar-light bg-dark  custom-background">
+    <style>
+    .custom-background {
+        background-color: #000000;
+    }
+    </style>
+  <div class="container">
+    <a class ="navbar-brand" href="">
+      <img src = "{{url_for('static', filename ='logo.webp')}}" width="200" height="200" class="d-inline-block align-text-top">
+    </a>
+    <ul class ="navbar-nav">
+      <li class="nav-item"></li>
+      <button class ="btn btn-success" data-bs-toggle="modal" data-bs-target="#insert_modal">Add item</button>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+
+<div id="insert_modal" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title">Add Item</h4>
+         </div>
+         <div class="modal-body">
+
+            <form action="{{url_for('insert_items')}}" method="POST">
+
+
+               <div class="form-group">
+                  <label>Title:</label>
+                  <input type="text" class="form-control" name="title" required="1">
+               </div>
+
+
+                <div class="form-group">
+                  <label>Type:</label>
+                  <input type="text" class="form-control" name="type" required="1">
+               </div>
+
+                 <div class="form-group">
+                  <label>Price:</label>
+                  <input type="number" class="form-control" name="price" required="1">
+               </div>
+
+               <div class="form-group">
+                  <button class="btn btn-primary mt-4" type="submit">Add Item</button>
+               </div>
+
+
+            </form>
+
+
+         </div>
+
+
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+         </div>
+
+      </div>
+   </div>
+</div>
+
