@@ -1,15 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 # local dbms config
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/flaskcloud'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:mypassword@mydb.cxhtwibyzspu.eu-west-1.rds.amazonaws.com/flaskcloud'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = "pwd123a"
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:mypassword@mydb.cxhtwibyzspu.eu-west-1.rds.amazonaws.com/flaskcloud'
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+application.secret_key = "pwd123a"
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(application)
 
 
 # creating table model for our app
@@ -25,13 +25,13 @@ class inventory(db.Model):
         self.price = price
 
 
-@app.route("/")
+@application.route("/")
 def index():
     items = inventory.query.all()
     return render_template('index.html', items=items)
 
 
-@app.route('/add/', methods=['POST'])
+@application.route('/add/', methods=['POST'])
 def insert_items():
     if request.method == "POST":
         item = inventory(
@@ -46,7 +46,7 @@ def insert_items():
         return redirect((url_for('index')))
 
 
-@app.route('/update/', methods=['POST'])
+@application.route('/update/', methods=['POST'])
 def update():
     if request.method == "POST":
         my_data = inventory.query.get(request.form.get('id'))
@@ -59,7 +59,7 @@ def update():
         return redirect(url_for('index'))
 
 
-@app.route('/delete/<id>', methods=['GET', 'POST'])
+@application.route('/delete/<id>', methods=['GET', 'POST'])
 def delete(id):
     my_data = inventory.query.get(id)
     db.session.delete(my_data)
@@ -69,4 +69,4 @@ def delete(id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    application.run(debug=True)
